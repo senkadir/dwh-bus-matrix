@@ -1,0 +1,53 @@
+﻿@model ViewMatrixModel
+
+@section css{
+    <link href="/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
+}
+
+@section js{
+    <script src="/plugins/custom/datatables/datatables.bundle.js"></script>
+    <script src="/plugins/page/matrix/matrix.index.js"></script>
+}
+
+<div class="card card-deck card-bordered">
+    <div class="card-header">
+        <div class="card-toolbar">
+        </div>
+    </div>
+    <div class="card-body">
+        <table id="table1" class="table table-bordered table-row-bordered gy-5">
+            <thead>
+                <tr class="fw-bold fs-6">
+                    <th>Facts</th>
+                    @foreach (var item in Model.Dimensions)
+                    {
+                        <th class="text-center">@item.Name</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Facts)
+                {
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+
+                        @foreach (var dimension in Model.Dimensions)
+                        {
+                            <td class="text-center">
+                                @if (item.Dimensions.Any(x=>x.Id == dimension.Id))
+                                {
+                                    <span>x</span>
+                                }
+                                else
+                                {
+                                }
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
