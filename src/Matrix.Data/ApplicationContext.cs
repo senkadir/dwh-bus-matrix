@@ -1,5 +1,5 @@
 ﻿using Matrix.Common.Domain;
-using Matrix.Domain.Objects.Dimensions;
+using Matrix.Domain.Objects;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -11,6 +11,8 @@ namespace Matrix.Data
     public class ApplicationContext : DbContext
     {
         public DbSet<Dimension> Dimensions { get; set; }
+
+        public DbSet<Fact> Facts { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {

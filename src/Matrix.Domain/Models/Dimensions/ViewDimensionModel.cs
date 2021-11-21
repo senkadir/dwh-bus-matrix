@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Matrix.Domain.Models.Dimensions
+namespace Matrix.Domain.Models
 {
     public class ViewDimensionModel
     {

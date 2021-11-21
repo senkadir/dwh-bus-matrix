@@ -1,5 +1,5 @@
 ﻿using Matrix.Common.Domain.Configuration;
-using Matrix.Domain.Objects.Dimensions;
+using Matrix.Domain.Objects;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Matrix.Data.Configurations

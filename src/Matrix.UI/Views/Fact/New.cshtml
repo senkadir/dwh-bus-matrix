@@ -1,0 +1,46 @@
+﻿@model CreateFactCommand
+
+@section css{
+}
+
+@section js{
+    <script src="/plugins/page/fact/fact.new.js"></script>
+}
+
+<div class="card card-deck card-bordered">
+    <div class="card-header">
+        <div class="card-toolbar">
+            <a href="/dimensions/new" class="btn btn-primary">
+                <i class="fa la-arrow-left"></i>Return
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <form asp-controller="fact" asp-action="new" method="post" id="form1">
+            <div class="container">
+                <div class="row mb-10">
+                    <input type="text" name="name" class="form-control mb-3 mb-lg-0" placeholder="Fact name" value="" />
+                </div>
+                <div class="row mb-10">
+                    <select class="form-select" name="selectedDimensions" id="dimensions" data-control="select2" data-placeholder="Select dimensions for fact" data-allow-clear="true" multiple="multiple">
+                        <option></option>
+                        @foreach (var item in Model.Dimensions)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="row">
+                    <button id="form1-submit" type="submit" class="btn btn-primary">
+                        <span class="indicator-label">
+                            Create
+                        </span>
+                        <span class="indicator-progress">
+                            Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

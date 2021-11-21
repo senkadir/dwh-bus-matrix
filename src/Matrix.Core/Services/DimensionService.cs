@@ -1,7 +1,7 @@
 ﻿using Matrix.Data;
-using Matrix.Domain.Commands.Dimensions;
-using Matrix.Domain.Models.Dimensions;
-using Matrix.Domain.Objects.Dimensions;
+using Matrix.Domain.Commands;
+using Matrix.Domain.Models;
+using Matrix.Domain.Objects;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

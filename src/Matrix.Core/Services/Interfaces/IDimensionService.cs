@@ -1,6 +1,6 @@
 ﻿using Matrix.Common.Core;
-using Matrix.Domain.Commands.Dimensions;
-using Matrix.Domain.Models.Dimensions;
+using Matrix.Domain.Commands;
+using Matrix.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

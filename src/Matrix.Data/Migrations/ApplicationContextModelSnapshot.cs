@@ -19,7 +19,7 @@ namespace Matrix.Data.Migrations
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Matrix.Domain.Objects.Dimensions.Dimension", b =>
+            modelBuilder.Entity("Matrix.Domain.Objects.Dimension", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -38,6 +38,80 @@ namespace Matrix.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Dimensions");
+                });
+
+            modelBuilder.Entity("Matrix.Domain.Objects.Fact", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Facts");
+                });
+
+            modelBuilder.Entity("Matrix.Domain.Objects.FactDimension", b =>
+                {
+                    b.Property<Guid>("FactId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DimensionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("FactId", "DimensionId");
+
+                    b.HasIndex("DimensionId");
+
+                    b.ToTable("FactDimension");
+                });
+
+            modelBuilder.Entity("Matrix.Domain.Objects.FactDimension", b =>
+                {
+                    b.HasOne("Matrix.Domain.Objects.Dimension", "FactDimensions")
+                        .WithMany("FactDimensions")
+                        .HasForeignKey("DimensionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Matrix.Domain.Objects.Fact", "Fact")
+                        .WithMany("Dimensions")
+                        .HasForeignKey("FactId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Fact");
+
+                    b.Navigation("FactDimensions");
+                });
+
+            modelBuilder.Entity("Matrix.Domain.Objects.Dimension", b =>
+                {
+                    b.Navigation("FactDimensions");
+                });
+
+            modelBuilder.Entity("Matrix.Domain.Objects.Fact", b =>
+                {
+                    b.Navigation("Dimensions");
                 });
 #pragma warning restore 612, 618
         }

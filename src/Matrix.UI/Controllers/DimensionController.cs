@@ -1,5 +1,5 @@
 ﻿using Matrix.Core.Services;
-using Matrix.Domain.Commands.Dimensions;
+using Matrix.Domain.Commands;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

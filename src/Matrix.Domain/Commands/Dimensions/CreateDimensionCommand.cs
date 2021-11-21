@@ -1,4 +1,4 @@
-﻿namespace Matrix.Domain.Commands.Dimensions
+﻿namespace Matrix.Domain.Commands
 {
     public class CreateDimensionCommand
     {
