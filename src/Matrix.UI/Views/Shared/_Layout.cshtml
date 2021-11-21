@@ -21,8 +21,10 @@
     <link href="/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
     <link href="/css/style.bundle.css" rel="stylesheet" type="text/css" />
     <!--end::Global Stylesheets Bundle-->
+
+    @RenderSection("css", required:false)
 </head>
-<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed aside-enabled aside-fixed" style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed aside-enabled aside-fixed bg-gray-300" style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
     <!--begin::Main-->
     <!--begin::Root-->
     <div class="d-flex flex-column flex-root">
@@ -75,12 +77,14 @@
     <!--end::Scrolltop-->
     <!--end::Main-->
     <script>var hostUrl = "assets/";</script>
+
     <!--begin::Javascript-->
     <!--begin::Global Javascript Bundle(used by all pages)-->
     <script src="/plugins/global/plugins.bundle.js"></script>
     <script src="/js/scripts.bundle.js"></script>
     <!--end::Global Javascript Bundle-->
 
+    @RenderSection("js", required:false)
     <!--end::Javascript-->
 </body>
 </html>

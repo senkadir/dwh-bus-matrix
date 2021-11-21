@@ -2,13 +2,36 @@ version: "3.9"
 
 services:
 
-  ##20000
+  ##40100
   db:
-    image: "mcr.microsoft.com/mssql/server"
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
     environment:
         SA_PASSWORD: "dockerPass1!"
         ACCEPT_EULA: "Y"
+    ports:
+        - "40100:1433"
+    networks:
+        - project
+        
+  ##40101
+  matrix.ui:
+    image: matrix/ui
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    container_name: ui
+    ports:
+      - '40101:5000'
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS http://*:5000
+    networks:
+      - project
+    depends_on:
+      - db
+    restart: 
+      on-failure
 
 networks:
   project:
-    name: project
+    name: project-network

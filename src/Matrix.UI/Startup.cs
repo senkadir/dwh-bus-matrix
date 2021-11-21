@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Diagnostics;
 
 namespace Matrix.UI
 {
@@ -25,6 +27,8 @@ namespace Matrix.UI
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddContext();
+
+            services.AddDomainServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +57,8 @@ namespace Matrix.UI
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.InitializeDatabase();
         }
     }
 }
