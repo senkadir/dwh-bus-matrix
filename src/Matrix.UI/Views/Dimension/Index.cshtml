@@ -23,6 +23,8 @@
                 <tr class="fw-bold fs-6 text-muted">
                     <th>Id</th>
                     <th>Name</th>
+                    <th>Order</th>
+                    <th>Is Active</th>
                     <th>
                         <div class="d-flex justify-content-end">
                             Actions
@@ -36,6 +38,12 @@
                     <tr>
                         <td>@item.Id</td>
                         <td>@item.Name</td>
+                        <th>
+                            <input type="number" name="order" class="form-control form-control-solid mb-3 mb-lg-0" disabled="disabled" value="@item.Order" />
+                        </th>
+                        <th>
+                            <input class="form-check-input" type="checkbox" id="isActive" name="isActive" asp-for="@item.IsActive" disabled="disabled" />
+                        </th>
                         <td>
                             <div class="d-flex justify-content-end">
                                 <div class="ms-2">

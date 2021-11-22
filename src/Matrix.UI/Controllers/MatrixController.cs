@@ -1,6 +1,7 @@
 ﻿using Matrix.Core.Services;
 using Matrix.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Matrix.UI.Controllers
@@ -20,10 +21,18 @@ namespace Matrix.UI.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var dimennsions = await _dimensionService.GetAsync();
+
+            dimennsions = dimennsions.OrderBy(x => x.Order).Where(x => x.IsActive).ToList();
+
+            var facts = await _factService.GetAsync();
+
+            facts = facts.OrderBy(x => x.Order).Where(x => x.IsActive);
+
             ViewMatrixModel model = new()
             {
-                Dimensions = await _dimensionService.GetAsync(),
-                Facts = await _factService.GetAsync()
+                Dimensions = dimennsions,
+                Facts = facts
             };
 
             return View(model);

@@ -1,10 +1,13 @@
 ﻿using Matrix.Common.Core;
 using Matrix.Data;
+using Matrix.Domain.Objects;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
+using System;
 
 namespace Matrix.UI.Infrastructure
 {
@@ -29,9 +32,39 @@ namespace Matrix.UI.Infrastructure
         {
             using var serviceScope = app.ApplicationServices.CreateScope();
 
-            var db = serviceScope.ServiceProvider.GetService<ApplicationContext>();
+            var environment = serviceScope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
 
-            db.Database.Migrate();
+            if (environment.EnvironmentName == "Docker")
+            {
+                var db = serviceScope.ServiceProvider.GetService<ApplicationContext>();
+
+                db.Database.Migrate();
+
+                for (int i = 0; i < 10; i++)
+                {
+                    Dimension dim = new()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = $"Dim {i}",
+                        IsActive = true,
+                        Order = i
+                    };
+
+                    Fact fact = new()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = $"Fact {i}",
+                        IsActive = true,
+                        Order = i
+                    };
+
+                    db.Dimensions.Add(dim);
+                    db.Facts.Add(fact);
+
+                    db.SaveChanges();
+                }
+
+            }
         }
 
         internal static IServiceCollection AddDomainServices(this IServiceCollection services)

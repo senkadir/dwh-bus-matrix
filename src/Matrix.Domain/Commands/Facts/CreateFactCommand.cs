@@ -8,6 +8,10 @@ namespace Matrix.Domain.Commands
     {
         public string Name { get; set; }
 
+        public int Order { get; set; }
+
+        public bool IsActive { get; set; }
+
         public List<ViewDimensionModel> Dimensions { get; set; }
 
         public List<Guid> SelectedDimensions { get; set; }

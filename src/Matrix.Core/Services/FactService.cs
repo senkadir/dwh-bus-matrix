@@ -27,6 +27,8 @@ namespace Matrix.Core.Services
             {
                 Id = id,
                 Name = command.Name,
+                Order = command.Order,
+                IsActive = command.IsActive,
                 Dimensions = (command.SelectedDimensions ??= new())
                                     .Select(x =>
                                         new FactDimension
@@ -54,10 +56,14 @@ namespace Matrix.Core.Services
             {
                 Id = x.Id,
                 Name = x.Name,
+                IsActive = x.IsActive,
+                Order = x.Order,
                 Dimensions = x.Dimensions.Select(y => new ViewDimensionModel
                 {
                     Id = y.Dimension.Id,
-                    Name = y.Dimension.Name
+                    Name = y.Dimension.Name,
+                    Order = y.Dimension.Order,
+                    IsActive = y.Dimension.IsActive
                 })
             });
         }

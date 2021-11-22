@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Matrix.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20211121195319_FactsDimensions")]
-    partial class FactsDimensions
+    [Migration("20211122175152_Mig1")]
+    partial class Mig1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,12 +30,18 @@ namespace Matrix.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("ModifiedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -51,12 +57,18 @@ namespace Matrix.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("ModifiedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -89,7 +101,7 @@ namespace Matrix.Data.Migrations
 
             modelBuilder.Entity("Matrix.Domain.Objects.FactDimension", b =>
                 {
-                    b.HasOne("Matrix.Domain.Objects.Dimension", "FactDimensions")
+                    b.HasOne("Matrix.Domain.Objects.Dimension", "Dimension")
                         .WithMany("FactDimensions")
                         .HasForeignKey("DimensionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -101,9 +113,9 @@ namespace Matrix.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Fact");
+                    b.Navigation("Dimension");
 
-                    b.Navigation("FactDimensions");
+                    b.Navigation("Fact");
                 });
 
             modelBuilder.Entity("Matrix.Domain.Objects.Dimension", b =>

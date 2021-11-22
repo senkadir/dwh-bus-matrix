@@ -21,6 +21,19 @@
                 <div class="row mb-10">
                     <input type="text" name="name" class="form-control mb-3 mb-lg-0" placeholder="Fact name" value="" />
                 </div>
+
+                <div class="fv-row mb-10">
+                    <label for="order" class="form-label">Order</label>
+                    <input type="number" name="order" class="form-control form-control-solid mb-3 mb-lg-0" value="0" id="order" />
+                </div>
+
+                <div class="fv-row mb-10">
+                    <input class="form-check-input" type="checkbox" id="isActive" name="isActive" checked="checked" value="true" />
+                    <label class="form-check-label" for="isActive">
+                        Is Active
+                    </label>
+                </div>
+
                 <div class="row mb-10">
                     <select class="form-select" name="selectedDimensions" id="dimensions" data-control="select2" data-placeholder="Select dimensions for fact" data-allow-clear="true" multiple="multiple">
                         <option></option>

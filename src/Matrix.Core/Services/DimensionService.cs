@@ -24,7 +24,9 @@ namespace Matrix.Core.Services
             Dimension dimension = new()
             {
                 Id = Guid.NewGuid(),
-                Name = command.Name
+                Name = command.Name,
+                IsActive = command.IsActive,
+                Order = command.Order
             };
 
             await _context.Dimensions.AddAsync(dimension);
@@ -38,8 +40,11 @@ namespace Matrix.Core.Services
                                  .Select(x => new ViewDimensionModel
                                  {
                                      Id = x.Id,
-                                     Name = x.Name
+                                     Name = x.Name,
+                                     IsActive = x.IsActive,
+                                     Order = x.Order
                                  })
+                                 .OrderBy(x => x.Order)
                                  .ToListAsync();
         }
     }

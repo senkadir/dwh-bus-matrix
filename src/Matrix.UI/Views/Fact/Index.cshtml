@@ -23,6 +23,8 @@
                 <tr class="fw-bold fs-6 text-muted">
                     <th>Id</th>
                     <th>Name</th>
+                    <th>Order</th>
+                    <th>Is Active</th>
                     <th>Dimensions</th>
                     <th>
                         <div class="d-flex justify-content-end">
@@ -38,9 +40,15 @@
                         <td>@item.Id</td>
                         <td>@item.Name</td>
                         <th>
+                            <input type="number" name="order" class="form-control form-control-solid mb-3 mb-lg-0" disabled="disabled" value="@item.Order" />
+                        </th>
+                        <th>
+                            <input class="form-check-input" type="checkbox" id="isActive" name="isActive" disabled="disabled" asp-for="@item.IsActive" />
+                        </th>
+                        <th>
                             @if (item.Dimensions.Count() > 0)
                             {
-                                <select class="form-select" data-control="select2" multiple="multiple" data-allow-clear="false" >
+                                <select class="form-select" data-control="select2" multiple="multiple" data-allow-clear="false">
                                     <option disabled="disabled"></option>
                                     @foreach (var dimension in item.Dimensions)
                                     {
