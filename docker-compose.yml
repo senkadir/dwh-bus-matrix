@@ -15,7 +15,7 @@ services:
         
   ##40101
   matrix.ui:
-    image: matrix/ui
+    image: dwh/ui
     build:
       context: ./
       dockerfile: ./Dockerfile
