@@ -39,9 +39,7 @@
                     <tr>
                         <td>@item.Id</td>
                         <td>@item.Name</td>
-                        <th>
-                            <input type="number" name="order" class="form-control form-control-solid mb-3 mb-lg-0" disabled="disabled" value="@item.Order" />
-                        </th>
+                        <th>@item.Order</th>
                         <th>
                             <input class="form-check-input" type="checkbox" id="isActive" name="isActive" disabled="disabled" asp-for="@item.IsActive" />
                         </th>
