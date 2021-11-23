@@ -18,45 +18,56 @@
         </div>
     </div>
     <div class="card-body">
-        <table id="table1" class="table table-hover table-striped table-bordered table-row-bordered gy-5">
-            <thead>
-                <tr class="fw-bold fs-6 text-muted">
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Order</th>
-                    <th>Is Active</th>
-                    <th>
-                        <div class="d-flex justify-content-end">
-                            Actions
-                        </div>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.Id</td>
-                        <td>@item.Name</td>
+       
+
+        <div class="row">
+            <div class="input-group mb-5">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="la la-search la-1x"></i>
+                </span>
+                <input type="text" class="form-control" data-kt-docs-table-filter="search" placeholder="Search..." aria-describedby="basic-addon1" />
+            </div>
+        </div>
+        <div class="row">
+            <table id="table1" class="table table-hover table-striped table-bordered table-row-bordered gy-5">
+                <thead>
+                    <tr class="fw-bold fs-6 text-muted">
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Order</th>
+                        <th>Is Active</th>
                         <th>
-                            <input type="number" name="order" class="form-control form-control-solid mb-3 mb-lg-0" disabled="disabled" value="@item.Order" />
-                        </th>
-                        <th>
-                            <input class="form-check-input" type="checkbox" id="isActive" name="isActive" asp-for="@item.IsActive" disabled="disabled" />
-                        </th>
-                        <td>
                             <div class="d-flex justify-content-end">
-                                <div class="ms-2">
-                                    <button type="button" class="btn btn-sm btn-icon btn-icon-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
-                                        <i class="fa la-trash"></i>
-                                    </button>
-                                </div>
+                                Actions
                             </div>
-                        </td>
+                        </th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <th>@item.Order</th>
+                            <th>
+                                <input class="form-check-input" type="checkbox" id="isActive" name="isActive" asp-for="@item.IsActive" disabled="disabled" />
+                            </th>
+                            <td>
+                                <div class="d-flex justify-content-end">
+                                    <div class="ms-2">
+                                        <a href="dimensions/@item.Id/edit" class="btn btn-sm btn-icon btn-icon-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                            <i class="fa la-edit"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        
     </div>
 </div>
 

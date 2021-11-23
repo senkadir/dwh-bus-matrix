@@ -34,9 +34,22 @@ namespace Matrix.Core.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task EditAsync(EditDimensionModel model)
+        {
+            Dimension dimension = await _context.Dimensions
+                                                .FirstOrDefaultAsync(x => x.Id == model.Id);
+
+            dimension.Name = model.Name;
+            dimension.Order = model.Order;
+            dimension.IsActive = model.IsActive;
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<ViewDimensionModel>> GetAsync()
         {
             return await _context.Dimensions
+                                 .AsNoTracking()
                                  .Select(x => new ViewDimensionModel
                                  {
                                      Id = x.Id,
@@ -46,6 +59,21 @@ namespace Matrix.Core.Services
                                  })
                                  .OrderBy(x => x.Order)
                                  .ToListAsync();
+        }
+
+        public async Task<ViewDimensionModel> GetAsync(Guid id)
+        {
+            return await _context.Dimensions
+                                 .AsNoTracking()
+                                 .Select(x => new ViewDimensionModel
+                                 {
+                                     Id = x.Id,
+                                     Name = x.Name,
+                                     IsActive = x.IsActive,
+                                     Order = x.Order
+                                 })
+                                 .Where(x => x.Id == id)
+                                 .FirstOrDefaultAsync();
         }
     }
 }

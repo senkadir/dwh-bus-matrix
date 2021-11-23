@@ -1,0 +1,49 @@
+﻿@model EditDimensionModel
+
+@section css{
+}
+
+@section js{
+    <script src="/plugins/page/dimension/dimension.edit.js"></script>
+}
+
+<div class="card card-deck card-bordered">
+    <div class="card-header">
+        <div class="card-toolbar">
+            <a href="/dimensions" class="btn btn-primary">
+                <i class="fa la-arrow-left"></i>Return
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <form asp-controller="dimension" asp-action="editDimension" asp method="post" id="form1">
+            <div class="fv-row mb-10">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Dimension name" value="@Model.Name" />
+            </div>
+
+            <div class="fv-row mb-10">
+                <label for="order" class="form-label">Order</label>
+                <input type="number" name="order" class="form-control form-control-solid mb-3 mb-lg-0" value="@Model.Order" id="order" />
+            </div>
+
+            <div class="fv-row mb-10">
+                <input class="form-check-input" type="checkbox" id="isActive" name="isActive" asp-for="@Model.IsActive" />
+                <label class="form-check-label" for="isActive">
+                    Is Active
+                </label>
+            </div>
+
+            <button id="form1-submit" type="submit" class="btn btn-primary">
+                <span class="indicator-label">
+                    Edit
+                </span>
+                <span class="indicator-progress">
+                    Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+
+        </form>
+    </div>
+</div>
+
