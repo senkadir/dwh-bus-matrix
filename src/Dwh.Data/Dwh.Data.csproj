@@ -18,8 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Matrix.Common\Dwh.Common.csproj" />
-    <ProjectReference Include="..\Matrix.Domain\Dwh.Domain.csproj" />
+    <ProjectReference Include="..\Dwh.Common\Dwh.Common.csproj" />
+    <ProjectReference Include="..\Dwh.Domain\Dwh.Domain.csproj" />
   </ItemGroup>
 
 </Project>

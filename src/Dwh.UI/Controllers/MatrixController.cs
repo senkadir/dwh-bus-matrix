@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Dwh.UI.Controllers
 {
-    [Route("Dwh")]
-    public class DwhController : BaseController
+    [Route("matrix")]
+    public class MatrixController : BaseController
     {
         private readonly IFactService _factService;
         private readonly IDimensionService _dimensionService;
 
-        public DwhController(IFactService factService,
+        public MatrixController(IFactService factService,
                                 IDimensionService dimensionService)
         {
             _factService = factService;
@@ -29,7 +29,7 @@ namespace Dwh.UI.Controllers
 
             facts = facts.OrderBy(x => x.Order).Where(x => x.IsActive);
 
-            ViewDwhModel model = new()
+            ViewMatrixModel model = new()
             {
                 Dimensions = dimennsions,
                 Facts = facts

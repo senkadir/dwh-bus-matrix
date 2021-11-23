@@ -6,4 +6,9 @@
     <RootNamespace>Dwh.Core</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Dwh.Data\Dwh.Data.csproj" />
+    <ProjectReference Include="..\Dwh.Domain\Dwh.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

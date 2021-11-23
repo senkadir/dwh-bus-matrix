@@ -2,7 +2,7 @@
 
 namespace Dwh.Domain.Models
 {
-    public class ViewDwhModel
+    public class ViewMatrixModel
     {
         public List<ViewDimensionModel> Dimensions { get; set; }
 

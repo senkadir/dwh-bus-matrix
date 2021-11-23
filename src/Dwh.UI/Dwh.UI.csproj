@@ -100,10 +100,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Matrix.Common\Dwh.Common.csproj" />
-      <ProjectReference Include="..\Matrix.Core\Dwh.Core.csproj" />
-      <ProjectReference Include="..\Matrix.Data\Dwh.Data.csproj" />
-      <ProjectReference Include="..\Matrix.Domain\Dwh.Domain.csproj" />
+      <ProjectReference Include="..\Dwh.Common\Dwh.Common.csproj" />
+      <ProjectReference Include="..\Dwh.Core\Dwh.Core.csproj" />
+      <ProjectReference Include="..\Dwh.Data\Dwh.Data.csproj" />
+      <ProjectReference Include="..\Dwh.Domain\Dwh.Domain.csproj" />
     </ItemGroup>
     
 </Project>
