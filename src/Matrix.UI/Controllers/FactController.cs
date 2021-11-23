@@ -1,6 +1,8 @@
 ﻿using Matrix.Core.Services;
 using Matrix.Domain.Commands;
+using Matrix.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace Matrix.UI.Controllers
@@ -38,11 +40,42 @@ namespace Matrix.UI.Controllers
         }
 
         [HttpPost("new")]
-        public async Task<IActionResult> NewDimension([FromForm] CreateFactCommand command)
+        public async Task<IActionResult> NewFact([FromForm] CreateFactCommand command)
         {
             await _factService.CreateAsync(command);
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet("{id:guid}/edit")]
+        public async Task<IActionResult> Edit([FromRoute] Guid id)
+        {
+            var fact = await _factService.GetAsync(id);
+            var dimensions = await _dimensionService.GetAsync();
+
+            EditFactCommand command = new()
+            {
+                Fact = new ViewFactModel()
+                {
+                    Id = fact.Id,
+                    Name = fact.Name,
+                    Order = fact.Order,
+                    IsActive = fact.IsActive,
+                    Dimensions = fact.Dimensions
+                },
+                Dimensions = dimensions
+            };
+
+            return View(command);
+        }
+
+        [HttpPost("edit")]
+        public async Task<IActionResult> EditFact([FromForm] EditFactCommand command)
+        {
+            await _factService.EditAsync(command);
+
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

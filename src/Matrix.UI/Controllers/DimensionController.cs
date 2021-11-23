@@ -42,7 +42,7 @@ namespace Matrix.UI.Controllers
         {
             var dimension = await _dimensionService.GetAsync(id);
 
-            EditDimensionModel model = new()
+            EditDimensionCommand command = new()
             {
                 Id = dimension.Id,
                 Name = dimension.Name,
@@ -50,13 +50,13 @@ namespace Matrix.UI.Controllers
                 IsActive = dimension.IsActive
             };
 
-            return View(model);
+            return View(command);
         }
 
         [HttpPost("edit")]
-        public async Task<IActionResult> EditDimension([FromForm] EditDimensionModel model)
+        public async Task<IActionResult> EditDimension([FromForm] EditDimensionCommand command)
         {
-            await _dimensionService.EditAsync(model);
+            await _dimensionService.EditAsync(command);
 
             return RedirectToAction(nameof(Index));
         }

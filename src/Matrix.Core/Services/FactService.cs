@@ -45,9 +45,37 @@ namespace Matrix.Core.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task EditAsync(EditFactCommand command)
+        {
+            Fact fact = await _context.Facts
+                                      .FirstOrDefaultAsync(x => x.Id == command.Fact.Id);
+
+            fact.Name = command.Fact.Name;
+            fact.Order = command.Fact.Order;
+            fact.IsActive = command.Fact.IsActive;
+            fact.Dimensions = (command.SelectedDimensions ??= new())
+                                     .Select(x => new FactDimension
+                                     {
+                                         Id = Guid.NewGuid(),
+                                         DimensionId = x,
+                                         FactId = fact.Id
+                                     })
+                                     .ToList();
+
+
+            var factDimensions = await _context.FactDimension
+                                               .Where(x => x.FactId == fact.Id)
+                                               .ToListAsync();
+
+            _context.RemoveRange(factDimensions);
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<ViewFactModel>> GetAsync()
         {
             var facts = await _context.Facts
+                                      .AsNoTracking()
                                       .Include(x => x.Dimensions)
                                       .ThenInclude(x => x.Dimension)
                                       .ToListAsync();
@@ -66,6 +94,31 @@ namespace Matrix.Core.Services
                     IsActive = y.Dimension.IsActive
                 })
             });
+        }
+
+        public async Task<ViewFactModel> GetAsync(Guid id)
+        {
+            var fact = await _context.Facts
+                                      .AsNoTracking()
+                                      .Include(x => x.Dimensions)
+                                      .ThenInclude(x => x.Dimension)
+                                      .FirstOrDefaultAsync(x => x.Id == id);
+
+            return new ViewFactModel
+            {
+                Id = fact.Id,
+                Name = fact.Name,
+                IsActive = fact.IsActive,
+                Order = fact.Order,
+                Dimensions = fact.Dimensions.Select(y => new ViewDimensionModel
+                {
+                    Id = y.Dimension.Id,
+                    Name = y.Dimension.Name,
+                    Order = y.Dimension.Order,
+                    IsActive = y.Dimension.IsActive
+                })
+            };
+
         }
     }
 }

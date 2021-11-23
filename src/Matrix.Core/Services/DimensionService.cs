@@ -34,7 +34,7 @@ namespace Matrix.Core.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task EditAsync(EditDimensionModel model)
+        public async Task EditAsync(EditDimensionCommand model)
         {
             Dimension dimension = await _context.Dimensions
                                                 .FirstOrDefaultAsync(x => x.Id == model.Id);

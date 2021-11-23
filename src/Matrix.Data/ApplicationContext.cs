@@ -14,6 +14,8 @@ namespace Matrix.Data
 
         public DbSet<Fact> Facts { get; set; }
 
+        public DbSet<FactDimension> FactDimension{ get; set; }
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
 

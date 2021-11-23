@@ -15,6 +15,6 @@ namespace Matrix.Core.Services
 
         Task<ViewDimensionModel> GetAsync(Guid id);
 
-        Task EditAsync(EditDimensionModel model);
+        Task EditAsync(EditDimensionCommand model);
     }
 }

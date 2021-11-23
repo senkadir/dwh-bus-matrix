@@ -1,0 +1,67 @@
+﻿@model EditFactCommand
+
+@section css{
+}
+
+@section js{
+    <script src="/plugins/page/fact/fact.edit.js"></script>
+}
+
+<div class="card card-deck card-bordered">
+    <div class="card-header">
+        <div class="card-toolbar">
+            <a href="/dimensions/new" class="btn btn-primary">
+                <i class="fa la-arrow-left"></i>Return
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <form asp-controller="fact" asp-action="EditFact" method="post" id="form1">
+            <div class="container">
+                <div class="row mb-10">
+                    <input type="hidden" asp-for="@Model.Fact.Id" />
+                    <input type="text" class="form-control mb-3 mb-lg-0" placeholder="Fact name" asp-for="@Model.Fact.Name" />
+                </div>
+
+                <div class="fv-row mb-10">
+                    <label for="order" class="form-label">Order</label>
+                    <input type="number" class="form-control form-control-solid mb-3 mb-lg-0" asp-for="@Model.Fact.Order" id="order" />
+                </div>
+
+                <div class="fv-row mb-10">
+                    <input class="form-check-input" type="checkbox" id="isActive" asp-for="@Model.Fact.IsActive" />
+                    <label class="form-check-label" for="isActive">
+                        Is Active
+                    </label>
+                </div>
+
+                <div class="row mb-10">
+                    <select class="form-select" asp-for="@Model.SelectedDimensions" id="dimensions" data-control="select2" data-placeholder="Select dimensions for fact" data-allow-clear="true" multiple="multiple">
+                        <option></option>
+                        @foreach (var item in Model.Dimensions)
+                        {
+                            if (Model.Fact.Dimensions.Any(x => x.Id == item.Id))
+                            {
+                                <option value="@item.Id" selected="selected">@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="row">
+                    <button id="form1-submit" type="submit" class="btn btn-primary">
+                        <span class="indicator-label">
+                            Edit
+                        </span>
+                        <span class="indicator-progress">
+                            Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
