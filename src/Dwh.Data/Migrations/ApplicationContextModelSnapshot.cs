@@ -31,6 +31,9 @@ namespace Dwh.Data.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<Guid>("MatrixId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("ModifiedAt")
                         .HasColumnType("datetime2");
 
@@ -42,6 +45,8 @@ namespace Dwh.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MatrixId");
 
                     b.ToTable("Dimensions");
                 });
@@ -58,6 +63,9 @@ namespace Dwh.Data.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<Guid>("MatrixId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("ModifiedAt")
                         .HasColumnType("datetime2");
 
@@ -70,60 +78,130 @@ namespace Dwh.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MatrixId");
+
                     b.ToTable("Facts");
                 });
 
-            modelBuilder.Entity("Dwh.Domain.Objects.FactDimension", b =>
+            modelBuilder.Entity("Dwh.Domain.Objects.Matrix", b =>
                 {
-                    b.Property<Guid>("FactId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("DimensionId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Matrixes");
+                });
+
+            modelBuilder.Entity("Dwh.Domain.Objects.MatrixItem", b =>
+                {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("DimensionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("FactId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MatrixId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ModifiedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("FactId", "DimensionId");
+                    b.HasKey("Id");
 
                     b.HasIndex("DimensionId");
 
-                    b.ToTable("FactDimension");
+                    b.HasIndex("FactId");
+
+                    b.HasIndex("MatrixId");
+
+                    b.ToTable("MatrixItems");
                 });
 
-            modelBuilder.Entity("Dwh.Domain.Objects.FactDimension", b =>
+            modelBuilder.Entity("Dwh.Domain.Objects.Dimension", b =>
                 {
-                    b.HasOne("Dwh.Domain.Objects.Dimension", "Dimension")
-                        .WithMany("FactDimensions")
-                        .HasForeignKey("DimensionId")
+                    b.HasOne("Dwh.Domain.Objects.Matrix", "Matrix")
+                        .WithMany("Dimensions")
+                        .HasForeignKey("MatrixId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Matrix");
+                });
+
+            modelBuilder.Entity("Dwh.Domain.Objects.Fact", b =>
+                {
+                    b.HasOne("Dwh.Domain.Objects.Matrix", "Matrix")
+                        .WithMany("Facts")
+                        .HasForeignKey("MatrixId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Matrix");
+                });
+
+            modelBuilder.Entity("Dwh.Domain.Objects.MatrixItem", b =>
+                {
+                    b.HasOne("Dwh.Domain.Objects.Dimension", "Dimension")
+                        .WithMany("MatrixItems")
+                        .HasForeignKey("DimensionId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("Dwh.Domain.Objects.Fact", "Fact")
-                        .WithMany("Dimensions")
+                        .WithMany("MatrixItems")
                         .HasForeignKey("FactId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Dwh.Domain.Objects.Matrix", "Matrix")
+                        .WithMany("Items")
+                        .HasForeignKey("MatrixId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Dimension");
 
                     b.Navigation("Fact");
+
+                    b.Navigation("Matrix");
                 });
 
             modelBuilder.Entity("Dwh.Domain.Objects.Dimension", b =>
                 {
-                    b.Navigation("FactDimensions");
+                    b.Navigation("MatrixItems");
                 });
 
             modelBuilder.Entity("Dwh.Domain.Objects.Fact", b =>
                 {
+                    b.Navigation("MatrixItems");
+                });
+
+            modelBuilder.Entity("Dwh.Domain.Objects.Matrix", b =>
+                {
                     b.Navigation("Dimensions");
+
+                    b.Navigation("Facts");
+
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

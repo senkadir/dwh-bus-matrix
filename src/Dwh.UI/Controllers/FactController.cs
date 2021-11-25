@@ -1,6 +1,7 @@
 ﻿using Dwh.Core.Services;
 using Dwh.Domain.Commands;
 using Dwh.Domain.Models;
+using Dwh.Domain.Queries;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -11,29 +12,27 @@ namespace Dwh.UI.Controllers
     public class FactController : BaseController
     {
         private readonly IFactService _factService;
-        private readonly IDimensionService _dimensionService;
+        private readonly IMatrixService _matrixService;
 
         public FactController(IFactService factService,
-                              IDimensionService dimensionService)
+                              IMatrixService matrixService)
         {
             _factService = factService;
-            _dimensionService = dimensionService;
+            _matrixService = matrixService;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            return View(await _factService.GetAsync());
+            return View(await _factService.GetAsync(new GetFactsQuery()));
         }
 
         [HttpGet("new")]
         public async Task<IActionResult> New()
         {
-            var dimensions = await _dimensionService.GetAsync();
-
             CreateFactCommand command = new()
             {
-                Dimensions = dimensions
+                Matrixes = await _matrixService.GetAsync()
             };
 
             return View(command);
@@ -47,11 +46,20 @@ namespace Dwh.UI.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost("api/new")]
+        public async Task<IActionResult> NewFactApi([FromBody] CreateFactCommand command)
+        {
+            command.IsActive = true;
+
+            await _factService.CreateAsync(command);
+
+            return Ok();
+        }
+
         [HttpGet("{id:guid}/edit")]
         public async Task<IActionResult> Edit([FromRoute] Guid id)
         {
             var fact = await _factService.GetAsync(id);
-            var dimensions = await _dimensionService.GetAsync();
 
             EditFactCommand command = new()
             {
@@ -60,10 +68,8 @@ namespace Dwh.UI.Controllers
                     Id = fact.Id,
                     Name = fact.Name,
                     Order = fact.Order,
-                    IsActive = fact.IsActive,
-                    Dimensions = fact.Dimensions
-                },
-                Dimensions = dimensions
+                    IsActive = fact.IsActive
+                }
             };
 
             return View(command);

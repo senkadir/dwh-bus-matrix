@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
 using System;
+using System.Linq;
 
 namespace Dwh.UI.Infrastructure
 {
@@ -34,17 +35,31 @@ namespace Dwh.UI.Infrastructure
 
             var environment = serviceScope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
 
-            if (environment.EnvironmentName == "Docker")
+            if (environment.EnvironmentName == "Docker" || environment.EnvironmentName == "Development")
             {
                 var db = serviceScope.ServiceProvider.GetService<ApplicationContext>();
 
                 db.Database.Migrate();
+
+                if (db.Matrixes.Any())
+                {
+                    return;
+                }
+
+                Matrix matrix = new()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Matrix 1"
+                };
+
+                db.Matrixes.Add(matrix);
 
                 for (int i = 0; i < 10; i++)
                 {
                     Dimension dim = new()
                     {
                         Id = Guid.NewGuid(),
+                        MatrixId = matrix.Id,
                         Name = $"Dim {i}",
                         IsActive = true,
                         Order = i
@@ -53,6 +68,7 @@ namespace Dwh.UI.Infrastructure
                     Fact fact = new()
                     {
                         Id = Guid.NewGuid(),
+                        MatrixId = matrix.Id,
                         Name = $"Fact {i}",
                         IsActive = true,
                         Order = i
@@ -60,10 +76,9 @@ namespace Dwh.UI.Infrastructure
 
                     db.Dimensions.Add(dim);
                     db.Facts.Add(fact);
-
-                    db.SaveChanges();
                 }
 
+                db.SaveChanges();
             }
         }
 

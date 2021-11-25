@@ -1,4 +1,4 @@
-﻿@model ViewMatrixModel
+﻿@model List<ViewMatrixModel>
 
 @section css{
     <link href="/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
@@ -12,42 +12,55 @@
 <div class="card card-deck card-bordered">
     <div class="card-header">
         <div class="card-toolbar">
+            <a href="/matrixes/new" class="btn btn-primary">
+                <i class="fa la-plus"></i>New
+            </a>
         </div>
     </div>
     <div class="card-body">
-        <table id="table1" class="table table-bordered table-row-bordered gy-5">
-            <thead>
-                <tr class="fw-bold fs-6">
-                    <th>Facts</th>
-                    @foreach (var item in Model.Dimensions)
-                    {
-                        <th class="text-center">@item.Name</th>
-                    }
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Facts)
-                {
-                    <tr>
-                        <td>
-                            @item.Name
-                        </td>
-
-                        @foreach (var dimension in Model.Dimensions)
-                        {
-                            <td class="text-center">
-                                @if (item.Dimensions.Any(x=>x.Id == dimension.Id))
-                                {
-                                    <span>x</span>
-                                }
-                                else
-                                {
-                                }
-                            </td>
-                        }
+        <div class="row">
+            <div class="input-group mb-5">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="la la-search la-1x"></i>
+                </span>
+                <input type="text" class="form-control" data-kt-docs-table-filter="search" placeholder="Search..." aria-describedby="basic-addon1" />
+            </div>
+        </div>
+        <div class="row">
+            <table id="table1" class="table table-hover table-striped table-bordered table-row-bordered gy-5">
+                <thead>
+                    <tr class="fw-bold fs-6 text-muted">
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>
+                            <div class="d-flex justify-content-end">
+                                Actions
+                            </div>
+                        </th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <td>
+                                <div class="d-flex justify-content-end ms-2">
+                                    <a href="matrixes/@item.Id" class="btn btn-sm btn-icon btn-icon-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+                                        <i class="fa la-eye"></i>
+                                    </a>
+
+                                    <a href="matrixes/@item.Id/edit" class="btn btn-sm btn-icon btn-icon-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                        <i class="fa la-edit"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </div>

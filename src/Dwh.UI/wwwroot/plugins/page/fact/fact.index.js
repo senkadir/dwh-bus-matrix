@@ -7,10 +7,11 @@ var dt = $("#table1").DataTable({
         null,
         null,
         null,
-        null,
         {
             "searchable": false,
             "orderable": false,
         },
-    ]
+    ],
+    "order": [[2, "asc"]],
+    "paging": false
 });

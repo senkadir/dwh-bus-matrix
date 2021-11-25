@@ -6,14 +6,14 @@ namespace Dwh.Domain.Commands
 {
     public class CreateFactCommand
     {
+        public Guid MatrixId { get; set; }
+
         public string Name { get; set; }
 
         public int Order { get; set; }
 
         public bool IsActive { get; set; }
 
-        public List<ViewDimensionModel> Dimensions { get; set; }
-
-        public List<Guid> SelectedDimensions { get; set; }
+        public IEnumerable<ViewMatrixModel> Matrixes { get; set; }
     }
 }

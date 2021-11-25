@@ -1,0 +1,139 @@
+﻿@model EditMatrixModel
+
+@section css{
+    <link href="/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
+}
+
+@section js{
+    <script src="/plugins/custom/datatables/datatables.bundle.js"></script>
+    <script src="/plugins/custom/axios/axios.min.js"></script>
+    <script src="/plugins/page/matrix/matrix.edit.js"></script>
+}
+
+<input type="hidden" value="@Url.ActionContext.RouteData.Values["id"]" id="matrix-id" />
+<div class="card card-deck card-bordered">
+    <div class="card-header">
+        <div class="card-toolbar">
+            @Model.Matrix.Name
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="input-group mb-5">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="la la-search la-1x"></i>
+                </span>
+                <input type="text" class="form-control" data-kt-docs-table-filter="search" placeholder="Search..." aria-describedby="basic-addon1" />
+            </div>
+        </div>
+        <div class="row">
+            <table id="table1" class="table table-bordered table-row-bordered gy-5">
+                <thead>
+                    <tr class="fw-bold fs-6">
+                        <th>Facts</th>
+                        @foreach (var item in Model.Dimensions)
+                        {
+                            @if (item.IsActive)
+                            {
+
+                                <th class="text-center">@item.Name</th>
+                            }
+                            else
+                            {
+                                <th class="text-center text-muted">
+                                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="This dimension is not active">
+                                        <i class="fas la-eye-slash"></i>
+                                        @item.Name
+                                    </span>
+                                </th>
+                            }
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var fact in Model.Facts.OrderBy(x => x.Order))
+                    {
+                        var dimensions = Model.Matrix.Items.Where(x => x.Fact.Id == fact.Id).Select(x => x.Dimension);
+
+                        <tr>
+                            @if (fact.IsActive)
+                            {
+                                <td>@fact.Name</td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="This fact is not active">
+                                        <i class="fas la-eye-slash"></i>
+                                        @fact.Name
+                                    </span>
+                                </td>
+                            }
+
+                            @foreach (var dimension in Model.Dimensions)
+                            {
+                                <td class="text-center">
+                                    @if (dimensions.Any(x => x.Id == dimension.Id))
+                                    {
+                                        @if (dimension.IsActive && fact.IsActive)
+                                        {
+                                            <span>x</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">x</span>
+                                        }
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                </tfoot>
+            </table>
+        </div>
+
+        <form asp-controller="Matrix" asp-action="AddItem" method="post" id="form-new-matrix-item">
+            <div class="row  fv-row">
+                <div class="col-sm">
+                    <select class="form-select form-select-solid" data-control="select2" data-placeholder="Select a fact" name="facts">
+                        <option></option>
+                        @foreach (var item in Model.Facts.OrderBy(x => x.Order))
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+
+                </div>
+                <div class="col-sm">
+                    <select class="form-select form-select-solid" data-control="select2" data-placeholder="Select a dimension" name="dimensions">
+                        <option></option>
+                        @foreach (var item in Model.Dimensions.OrderBy(x => x.Order))
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-sm">
+                    <button class="btn btn-primary"
+                            title="Add Matrix Item"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="top"
+                            type="submit"
+                            id="btn-new-matrix-item">
+
+                        <i class="fa la-plus"></i>
+                        <span class="indicator-label">
+                            Add Item
+                        </span>
+                        <span class="indicator-progress">
+                            Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                        </span>
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,7 +1,9 @@
-﻿using Dwh.Data;
+﻿using AutoMapper;
+using Dwh.Data;
 using Dwh.Domain.Commands;
 using Dwh.Domain.Models;
 using Dwh.Domain.Objects;
+using Dwh.Domain.Queries;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,21 +15,18 @@ namespace Dwh.Core.Services
     public class DimensionService : IDimensionService
     {
         private readonly ApplicationContext _context;
+        private readonly IMapper _mapper;
 
-        public DimensionService(ApplicationContext context)
+        public DimensionService(ApplicationContext context,
+                                IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task CreateAsync(CreateDimensionCommand command)
         {
-            Dimension dimension = new()
-            {
-                Id = Guid.NewGuid(),
-                Name = command.Name,
-                IsActive = command.IsActive,
-                Order = command.Order
-            };
+            Dimension dimension = _mapper.Map<Dimension>(command);
 
             await _context.Dimensions.AddAsync(dimension);
 
@@ -46,7 +45,7 @@ namespace Dwh.Core.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<ViewDimensionModel>> GetAsync()
+        public async Task<List<ViewDimensionModel>> GetAsync(GetDimensionsQuery query)
         {
             return await _context.Dimensions
                                  .AsNoTracking()
@@ -58,6 +57,7 @@ namespace Dwh.Core.Services
                                      Order = x.Order
                                  })
                                  .OrderBy(x => x.Order)
+                                 .Where(x => (query.ActiveDimensions == null || x.IsActive == query.ActiveDimensions.Value))
                                  .ToListAsync();
         }
 

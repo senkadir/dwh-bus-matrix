@@ -8,7 +8,8 @@ var dt = $("#table1").DataTable({
         null,
         null,
         { "searchable": false },
-    ]
+    ],
+    "paging": false
 });
 
 var handleSearchDatatable = function () {

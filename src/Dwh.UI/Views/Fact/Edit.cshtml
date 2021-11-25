@@ -35,23 +35,6 @@
                     </label>
                 </div>
 
-                <div class="row mb-10">
-                    <select class="form-select" asp-for="@Model.SelectedDimensions" id="dimensions" data-control="select2" data-placeholder="Select dimensions for fact" data-allow-clear="true" multiple="multiple">
-                        <option></option>
-                        @foreach (var item in Model.Dimensions)
-                        {
-                            if (Model.Fact.Dimensions.Any(x => x.Id == item.Id))
-                            {
-                                <option value="@item.Id" selected="selected">@item.Name</option>
-                            }
-                            else
-                            {
-                                <option value="@item.Id">@item.Name</option>
-                            }
-                        }
-                    </select>
-                </div>
-
                 <div class="row">
                     <div class="col-sm">
                         <button id="form1-submit" type="submit" class="btn btn-primary">

@@ -11,6 +11,13 @@ var validator = FormValidation.formValidation(
                     }
                 }
             },
+            'matrixId': {
+                validators: {
+                    notEmpty: {
+                        message: 'Select matrix for fact'
+                    }
+                }
+            },
         },
 
         plugins: {

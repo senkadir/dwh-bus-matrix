@@ -14,7 +14,9 @@ namespace Dwh.Data
 
         public DbSet<Fact> Facts { get; set; }
 
-        public DbSet<FactDimension> FactDimension{ get; set; }
+        public DbSet<Matrix> Matrixes { get; set; }
+
+        public DbSet<MatrixItem> MatrixItems { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {

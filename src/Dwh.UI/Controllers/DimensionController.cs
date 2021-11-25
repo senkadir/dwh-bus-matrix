@@ -1,6 +1,6 @@
 ﻿using Dwh.Core.Services;
 using Dwh.Domain.Commands;
-using Dwh.Domain.Models;
+using Dwh.Domain.Queries;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -11,22 +11,30 @@ namespace Dwh.UI.Controllers
     public class DimensionController : BaseController
     {
         private readonly IDimensionService _dimensionService;
+        private readonly IMatrixService _matrixService;
 
-        public DimensionController(IDimensionService dimensionService)
+        public DimensionController(IDimensionService dimensionService,
+                                   IMatrixService matrixService)
         {
             _dimensionService = dimensionService;
+            _matrixService = matrixService;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            return View(await _dimensionService.GetAsync());
+            return View(await _dimensionService.GetAsync(new GetDimensionsQuery()));
         }
 
         [HttpGet("new")]
-        public IActionResult New()
+        public async Task<IActionResult> New()
         {
-            return View();
+            CreateDimensionCommand command = new()
+            {
+                Matrixes = await _matrixService.GetAsync()
+            };
+
+            return View(command);
         }
 
         [HttpPost("new")]

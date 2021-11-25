@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Dwh.Domain.Models
 {
@@ -11,5 +12,7 @@ namespace Dwh.Domain.Models
         public bool IsActive { get; set; }
 
         public int Order { get; set; }
+
+        public IEnumerable<ViewFactModel> Facts { get; set; }
     }
 }
